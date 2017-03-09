@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+
+	<div class='msg'>{{msg if msg != None}}</div>
+
+	<h2>{{username}}'s Gallery</h2>
+
+	<div class='image'>
+	{% for item in path_list %}
+		<a href='{{url_for("transformed")}}?id={{item}}'>
+			<img src="{{url_for('static', filename = item)}} "  height='180' width='180'>
+		</a>
+	{% endfor %}
+	</div>
+	
+
+{% endblock %}

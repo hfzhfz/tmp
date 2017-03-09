@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+
+	<div class='msg'>{{msg if msg != None}}</div>
+
+	<form enctype="multipart/form-data" action='{{url_for("images_create_save")}}' method="post">
+    	<input id="upload" type="file" name="file" /><br>
+    	<input type='submit' value='send' />
+    	<input type="reset">
+	</form>
+
+	<br>
+	
+	<form method='post' action = '{{url_for("gallery")}}'>
+		<input type='submit' value='Go to Gallery' />
+	</form>
+
+{% endblock %}
