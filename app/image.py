@@ -6,6 +6,7 @@ import mysql.connector
 from app.config import db_config
 from wand.image import Image
 from wand.display import display
+import boto3
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
@@ -41,6 +42,8 @@ def images_create_save():
 		username = session['username']
 	else:
 		return render_template("login.html")
+
+	s3 = boto3.resource('s3')
 	 
 
 	if 'file' not in request.files:
@@ -56,7 +59,7 @@ def images_create_save():
 	if file and allowed_file(file.filename):
 
 		filename = secure_filename(file.filename)
-		path = db_config['path'] + '/' + username + "/"
+		path = db_config['path'] + '/'
 
 		cnx = get_db()
 		cursor = cnx.cursor()
@@ -68,13 +71,6 @@ def images_create_save():
 			msg = "file exists! try another one"
 			return render_template("/main.html", msg = msg, title="Web & Image")
 
-
-		if not os.path.exists(path):
-			try:
-				os.makedirs(path)
-			except OSError as exc:
-				if exc.errno != errno.EEXIST:
-					raise
 		
 		file.save(os.path.join(path, filename))
 
@@ -82,16 +78,29 @@ def images_create_save():
 		ext = file.filename.rsplit('.', 1)[1]
 		path_name = path + filename
 
+		key1 = username  + "_" + fname + "_origin." + ext
+		key2 = username  + "_" + fname + "_flopped." + ext
+		key3 = username  + "_" + fname + "_resized." + ext
+		key4 = username  + "_" + fname + "_color." + ext
+
+		data = open(path_name, 'rb')
+		s3.Bucket('lzw-a1').put_object(Key=key1, Body=data)
+
 		with Image(filename = path_name) as image:
 			with image.clone() as flopped:
 				flopped.flop()
-				new_file = path + fname + "_flopped." + ext
+				new_file = path + username  + "_" + fname + "_flopped." + ext
 				flopped.save(filename = new_file)
+				data = open(new_file, 'rb')
+				s3.Bucket('lzw-a1').put_object(Key=key2, Body=data)
+
 
 			with image.clone() as resize:
 				resize.resize(180, 180)
-				new_file = path + fname + "_resized." + ext
+				new_file = path + username  + "_" + fname + "_resized." + ext
 				resize.save(filename = new_file)
+				data = open(new_file, 'rb')
+				s3.Bucket('lzw-a1').put_object(Key=key3, Body=data)
 
 			with image.clone() as color:
 				frequency = 3
@@ -99,8 +108,10 @@ def images_create_save():
 				amplitude = 0.2
 				bias = 0.7
 				color.function('sinusoid', [frequency, phase_shift, amplitude, bias])
-				new_file = path + fname + "_color." + ext
+				new_file = path + username  + "_" + fname + "_color." + ext
 				color.save(filename = new_file)
+				data = open(new_file, 'rb')
+				s3.Bucket('lzw-a1').put_object(Key=key4, Body=data)
 
 		
 
@@ -109,11 +120,6 @@ def images_create_save():
 		row = cursor.fetchone()
 		userId = row[0]
 		
-		
-		key1 = filename
-		key2 = fname + "_flopped." + ext
-		key3 = fname + "_resized." + ext
-		key4 = fname + "_color." + ext
 
 		query = ''' INSERT INTO images (userId, key1, key2, key3, key4)
 		               VALUES (%s, %s, %s, %s, %s)
@@ -148,13 +154,13 @@ def gallery():
 		cursor.execute(query,(userId,))
 
 		path_list = []
-		path = username + "/"
+		
 		for row in cursor:
 
-			path_list.append( path + row[4])
-			#path_list.append(path + row[2])
+			path_list.append(row[4])
+			
 
-		return render_template("gallery.html", username = username, path_list = path_list)
+		return render_template("gallery.html", path_list = path_list)
 	else:
 		return render_template("login.html")
     
@@ -163,31 +169,27 @@ def gallery():
 def transformed():
 	if 'username' in session:
 		username = session['username']
-		path = request.args.get('id')
-		image_id = path.rsplit('/', 1)[1]
+		image_id = request.args.get('id')
 
 		cnx = get_db()
 		cursor = cnx.cursor()
-
-		#print(image_id)
 
 		query = "SELECT * FROM images WHERE key3 = %s"
 		cursor.execute(query,(image_id,))
 
 		path_list = []
-		path = username + "/"
 		row = cursor.fetchone()
 
 		if row is None:
 			msg = "image not exist"
 			return render_template("gallery.html", msg = msg)
 
-		path_list.append( path + row[2])
-		path_list.append( path + row[3])
-		path_list.append( path + row[4])
-		path_list.append( path + row[5])
+		path_list.append(row[2])
+		path_list.append(row[3])
+		path_list.append(row[4])
+		path_list.append(row[5])
 
-		return render_template("transformed.html", username = username, path_list = path_list)
+		return render_template("transformed.html", path_list = path_list)
 
 	else:
 		return render_template("login.html")
