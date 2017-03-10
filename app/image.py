@@ -170,8 +170,10 @@ def gallery():
 					'Key': row[4]
 				}
 			)
+			visit_id = row[4]
+			item = (url, visit_id)
 
-			path_list.append(url)
+			path_list.append(item)
 			
 
 		return render_template("gallery.html", path_list = path_list)
@@ -198,10 +200,16 @@ def transformed():
 			msg = "image not exist"
 			return render_template("gallery.html", msg = msg)
 
-		path_list.append(row[2])
-		path_list.append(row[3])
-		path_list.append(row[4])
-		path_list.append(row[5])
+		for i in range(2,6):
+			url = s3.generate_presigned_url(
+				ClientMethod='get_object',
+				Params={
+					'Bucket': 'lizw-a1',
+					'Key': row[i]
+				}
+			)
+			path_list.append(url)
+
 
 		return render_template("transformed.html", path_list = path_list)
 
