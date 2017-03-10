@@ -96,7 +96,7 @@ def images_create_save():
 				flopped.save(filename = new_file)
 				data = open(new_file, 'rb')
 				s3.Bucket('lizw-a1').put_object(Key=key2, Body=data)
-
+				os.remove(new_file)
 
 			with image.clone() as resize:
 				resize.resize(180, 180)
@@ -104,6 +104,7 @@ def images_create_save():
 				resize.save(filename = new_file)
 				data = open(new_file, 'rb')
 				s3.Bucket('lizw-a1').put_object(Key=key3, Body=data)
+				os.remove(new_file)
 
 			with image.clone() as color:
 				frequency = 3
@@ -115,8 +116,9 @@ def images_create_save():
 				color.save(filename = new_file)
 				data = open(new_file, 'rb')
 				s3.Bucket('lizw-a1').put_object(Key=key4, Body=data)
-
+				os.remove(new_file)
 		
+		os.remove(path_name)
 
 		query = "SELECT * FROM users WHERE username = %s"
 		cursor.execute(query,(username,))
