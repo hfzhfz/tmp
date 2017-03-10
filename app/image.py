@@ -7,7 +7,7 @@ from app.config import db_config
 from wand.image import Image
 from wand.display import display
 import boto3
-#from botocore.client import Config
+import requests
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
@@ -143,6 +143,8 @@ def gallery():
 	if 'username' in session:
 		username = session['username']
 
+		s3 = boto3.client('s3')
+
 		cnx = get_db()
 		cursor = cnx.cursor()
 
@@ -156,11 +158,20 @@ def gallery():
 		query = "SELECT * FROM images WHERE userId = %s"
 		cursor.execute(query,(userId,))
 
+
 		path_list = []
 		
 		for row in cursor:
 
-			path_list.append(row[4])
+			url = s3.generate_presigned_url(
+				ClientMethod='get_object',
+				Params={
+					'Bucket': 'lizw-a1',
+					'Key': row[4]
+				}
+			)
+
+			path_list.append(url)
 			
 
 		return render_template("gallery.html", path_list = path_list)
