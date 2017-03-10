@@ -1,5 +1,5 @@
 db_config = {'user': 'root', 
-             'password': 'hfzhfz34',
+             'password': 'ece1779pass',
              'host': '127.0.0.1',
              'database': 'webimage',
-             'path': '/Users/fangzaihong/Desktop/images'}
+             'path': 'app/static'}

@@ -6,3 +6,4 @@ flask
 
 #file
 *.pyc
+*.jpg
