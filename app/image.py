@@ -7,6 +7,7 @@ from app.config import db_config
 from wand.image import Image
 from wand.display import display
 import boto3
+#from botocore.client import Config
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
@@ -43,8 +44,8 @@ def images_create_save():
 	else:
 		return render_template("login.html")
 
+	#s3 = boto3.client('s3', config=Config(signature_version='s3v4'))
 	s3 = boto3.resource('s3')
-	 
 
 	if 'file' not in request.files:
 		msg = "no file"
@@ -84,7 +85,9 @@ def images_create_save():
 		key4 = username  + "_" + fname + "_color." + ext
 
 		data = open(path_name, 'rb')
-		s3.Bucket('lzw-a1').put_object(Key=key1, Body=data)
+		#f=open(path_name,'rb')
+		#s3.upload_fileobj(f, 'lizw-a1', key1)
+		s3.Bucket('lizw-a1').put_object(Key=key1, Body=data)
 
 		with Image(filename = path_name) as image:
 			with image.clone() as flopped:
@@ -92,7 +95,7 @@ def images_create_save():
 				new_file = path + username  + "_" + fname + "_flopped." + ext
 				flopped.save(filename = new_file)
 				data = open(new_file, 'rb')
-				s3.Bucket('lzw-a1').put_object(Key=key2, Body=data)
+				s3.Bucket('lizw-a1').put_object(Key=key2, Body=data)
 
 
 			with image.clone() as resize:
@@ -100,7 +103,7 @@ def images_create_save():
 				new_file = path + username  + "_" + fname + "_resized." + ext
 				resize.save(filename = new_file)
 				data = open(new_file, 'rb')
-				s3.Bucket('lzw-a1').put_object(Key=key3, Body=data)
+				s3.Bucket('lizw-a1').put_object(Key=key3, Body=data)
 
 			with image.clone() as color:
 				frequency = 3
@@ -111,7 +114,7 @@ def images_create_save():
 				new_file = path + username  + "_" + fname + "_color." + ext
 				color.save(filename = new_file)
 				data = open(new_file, 'rb')
-				s3.Bucket('lzw-a1').put_object(Key=key4, Body=data)
+				s3.Bucket('lizw-a1').put_object(Key=key4, Body=data)
 
 		
 
