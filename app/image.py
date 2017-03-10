@@ -175,7 +175,7 @@ def gallery():
 			path_list.append(url)
 			
 
-		return render_template("gallery.html", path_list = path_list, id_list = id_list)
+		return render_template("gallery.html", path_list = path_list, id_list = id_list, username=username)
 	else:
 		return render_template("login.html")
     
@@ -185,7 +185,8 @@ def transformed():
 	if 'username' in session:
 		username = session['username']
 		image_id = request.args.get('id')
-
+		
+		s3 = boto3.client('s3')
 		cnx = get_db()
 		cursor = cnx.cursor()
 
@@ -197,7 +198,7 @@ def transformed():
 
 		if row is None:
 			msg = "image not exist"
-			return render_template("gallery.html", msg = msg)
+			return render_template("gallery.html", msg = msg, username=username)
 
 		for i in range(2,6):
 			url = s3.generate_presigned_url(
@@ -210,7 +211,7 @@ def transformed():
 			path_list.append(url)
 
 
-		return render_template("transformed.html", path_list = path_list)
+		return render_template("transformed.html", path_list = path_list, username=username)
 
 	else:
 		return render_template("login.html")
