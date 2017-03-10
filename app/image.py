@@ -160,6 +160,7 @@ def gallery():
 
 
 		path_list = []
+		id_list = []
 		
 		for row in cursor:
 
@@ -170,13 +171,11 @@ def gallery():
 					'Key': row[4]
 				}
 			)
-			visit_id = row[4]
-			item = (url, visit_id)
-
-			path_list.append(item)
+			id_list.append(row[4]) 
+			path_list.append(url)
 			
 
-		return render_template("gallery.html", path_list = path_list)
+		return render_template("gallery.html", path_list = path_list, id_list = id_list)
 	else:
 		return render_template("login.html")
     
