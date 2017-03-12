@@ -3,7 +3,7 @@
 
         <h1>{{title}}</h1>
 
-        <form action="{{url_for('manager.ec2_create')}}" method="post">
+        <form action="{{url_for('ec2_create')}}" method="post">
             <input type="submit" value="New">
         </form>
         
@@ -21,7 +21,7 @@
                 <td>{{ instance.public_ip_address }}</td>
                 <td>{{ instance.state['Name'] }}</td>
                 <td>
-                    <form action="{{url_for('manager.ec2_destroy',id=instance.id)}}" method='post' onsubmit='return confirm("Are you sure?")'>
+                    <form action="{{url_for('ec2_destroy',id=instance.id)}}" method='post' onsubmit='return confirm("Are you sure?")'>
                         <input type='submit' value='Destroy' />
                     </form>
                 </td>
