@@ -17,6 +17,7 @@ def ec2_view():
 
     for instance in instances:
         id = instance.id
+        print(id)
 
         client = boto3.client('cloudwatch')
 

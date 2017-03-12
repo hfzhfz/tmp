@@ -54,11 +54,11 @@
         <h3>CPU Threshold for Growing</h3>
         <form action="{{url_for('ec2_grow_threshold')}}" method="post">
             <select name="grow">
-                <option value="30%">2</option>
-                <option value="40%">3</option>
-                <option value="50%">4</option>
-                <option value="60%">5</option>
-                <option value="70%">5</option>
+                <option value="30%">30%</option>
+                <option value="40%">40%</option>
+                <option value="50%">50%</option>
+                <option value="60%">60%</option>
+                <option value="70%">70%</option>
             </select>
             <input type="submit">
         </form>
@@ -66,9 +66,9 @@
         <h3>CPU Threshold for Shrinking</h3>
         <form action="{{url_for('ec2_shrink_threshold')}}" method="post">
             <select name="shrink">
-                <option value="20%">2</option>
-                <option value="30%">3</option>
-                <option value="40%">4</option>
+                <option value="20%">20%</option>
+                <option value="30%">30%</option>
+                <option value="40%">40%</option>
             </select>
             <input type="submit">
         </form>
