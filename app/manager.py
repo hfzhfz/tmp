@@ -14,12 +14,10 @@ def ec2_view():
     instances = ec2.instances.all()
 
     cpu_stats_list = []
+    client = boto3.client('cloudwatch')
 
     for instance in instances:
         id = instance.id
-        print(id)
-
-        client = boto3.client('cloudwatch')
 
         metric_name = 'CPUUtilization'
 
@@ -54,6 +52,8 @@ def ec2_view():
 
         cpu_stats_list.append(cpu_stats)
 
+    print(cpu_stats_list[0])
+    print(cpu_stats_list[1])
     return render_template("view.html",title="Instance Info",
                            cpu_stats_list=cpu_stats_list,
                            instances=instances)
