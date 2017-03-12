@@ -6,8 +6,6 @@ from datetime import datetime, timedelta
 from operator import itemgetter
 
 
-@webapp.route('/',methods=['GET'])
-@webapp.route('/index',methods=['GET'])
 @webapp.route('/manager',methods=['GET'])
 #Display details about a specific instance.
 def ec2_view():
