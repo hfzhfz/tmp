@@ -31,20 +31,20 @@
 
         <h2>CPU</h2>
         {% for cpu_stats in cpu_stats_list %}
-        <div id="cpu_plot" style="width:300px;height:150px"></div>
+            <div id="{{loop.index0}}" style="width:300px;height:150px"></div>
 
-        <script>
+            <script>
 
-            var options = {
-                series: {
-                    lines: { show: true },
-                    points: { show: true }
-                }
-            };
+                var options = {
+                    series: {
+                        lines: { show: true },
+                        points: { show: true }
+                    }
+                };
 
-            $.plot($("#cpu_plot"), [ {{ cpu_stats }} ] , options);
+                $.plot($("#{{loop.index0}}"), [ {{ cpu_stats }} ] , options);
 
-        </script>
+            </script>
         {% endfor %}
 
 

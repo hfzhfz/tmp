@@ -52,8 +52,6 @@ def ec2_view():
 
         cpu_stats_list.append(cpu_stats)
 
-    print(cpu_stats_list[0])
-    print(cpu_stats_list[1])
     return render_template("view.html",title="Instance Info",
                            cpu_stats_list=cpu_stats_list,
                            instances=instances)
