@@ -68,9 +68,11 @@ def ec2_shrink_ratio():
     print("shrink")
     return redirect(url_for('ec2_view'))
 
+@webapp.route('/manager/Gthreshold',methods=['POST'])
 def ec2_grow_threshold():
     return redirect(url_for('ec2_view'))
 
+@webapp.route('/manager/Sthreshold',methods=['POST'])
 def ec2_shrink_threshold():
     return redirect(url_for('ec2_view'))
 
