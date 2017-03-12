@@ -31,6 +31,8 @@ def teardown_db(exception):
 @webapp.route('/main',methods=['GET'])
 # Display an HTML page with links
 def main():
+	if not 'username' in session:
+		return render_template("login.html")
     return render_template("main.html",title="Web & Image")
 
 @webapp.route('/login',methods=['POST'])
@@ -59,6 +61,8 @@ def login():
 	
 	if hashed.encode('utf8') == bcrypt.hashpw(password.encode('utf8'),hashed.encode('utf8')):
 		session['username'] = userName
+		if userName == 'admin':
+			return render_template("view.html")
 		return render_template("/main.html", title="Web & Image")
 	else:
 		error_msg="Incorrect Password!"
@@ -96,6 +100,8 @@ def signup():
 	cursor.execute(query,(userName,salt.decode('utf-8'),hashed.decode('utf-8')))
 	cnx.commit()
 	session['username'] = userName
+	if userName == 'admin':
+		return render_template("view.html")
 	return render_template("/main.html", title="Web & Image")
 
 

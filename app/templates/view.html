@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript" src="{{ url_for('static', filename='flot/jquery.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='flot/jquery.flot.js') }}"></script>
+        <title>{{title}}</title>
+
+    </head>
+    <body>
+        <h1>{{title}}</h1>
+
+        <form action="{{url_for('ec2_create')}}" method="post">
+            <input type="submit" value="New">
+        </form>
+        
+        <table />
+        <thead>
+           <th>ID</th>
+           <th>Image AMI ID</th>
+           <th>Public IP Address</th>
+           <th>Status</th>
+        </thead> 
+        {% for instance in instances %}
+            <tr>
+                <td>{{ instance.id }}</td>
+                <td>{{ instance.image_id }}</td>
+                <td>{{ instance.public_ip_address }}</td>
+                <td>{{ instance.state['Name'] }}</td>
+                <td>
+                    <form action="{{url_for('ec2_destroy',id=instance.id)}}" method='post' onsubmit='return confirm("Are you sure?")'>
+                        <input type='submit' value='Destroy' />
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+
+        <h2>CPU</h2>
+        {% for cpu_stats in cpu_stats_list %}
+        <div id="cpu_plot" style="width:300px;height:150px"></div>
+
+        <script>
+
+            var options = {
+                series: {
+                    lines: { show: true },
+                    points: { show: true }
+                }
+            };
+
+            $.plot($("#cpu_plot"), [ {{ cpu_stats }} ] , options);
+
+        </script>
+        {% endfor %}
+
+
+        <h2>Auto-Scaling Policy</h2>
+
+        
+        <h3>CPU Threshold for Growing</h3>
+        <form action="{{url_for('ec2_grow_threshold')}}" method="post">
+            <select name="grow">
+                <option value="30%">2</option>
+                <option value="40%">3</option>
+                <option value="50%">4</option>
+                <option value="60%">5</option>
+                <option value="70%">5</option>
+            </select>
+            <input type="submit">
+        </form>
+
+        <h3>CPU Threshold for Shrinking</h3>
+        <form action="{{url_for('ec2_shrink_threshold')}}" method="post">
+            <select name="shrink">
+                <option value="20%">2</option>
+                <option value="30%">3</option>
+                <option value="40%">4</option>
+            </select>
+            <input type="submit">
+        </form>
+
+        <h3>Worker Pool Grow Ratio</h3>
+        <form action="{{url_for('ec2_grow_ratio')}}" method="post">
+            <select name="ratio">
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+            <input type="submit" name="grow" value="Set Grow Ratio">
+        </form>
+
+        <h3>Worker Pool Shrink Ratio</h3>
+        <form action="{{url_for('ec2_shrink_ratio')}}" method="post">
+            <select name="ratio2">
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+            <input type="submit" name="shrink" value="Set Shrink Ratio">
+        </form>
+    </body>
+</html>
