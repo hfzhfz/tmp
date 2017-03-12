@@ -33,7 +33,7 @@ def teardown_db(exception):
 def main():
 	if not 'username' in session:
 		return render_template("login.html")
-    return render_template("main.html",title="Web & Image")
+	return render_template("main.html",title="Web & Image")
 
 @webapp.route('/login',methods=['POST'])
 def login():
