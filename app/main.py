@@ -62,7 +62,7 @@ def login():
 	if hashed.encode('utf8') == bcrypt.hashpw(password.encode('utf8'),hashed.encode('utf8')):
 		session['username'] = userName
 		if userName == 'admin':
-			return render_template("view.html")
+			return redirect(url_for('ec2_view'))
 		return render_template("/main.html", title="Web & Image")
 	else:
 		error_msg="Incorrect Password!"
@@ -101,7 +101,7 @@ def signup():
 	cnx.commit()
 	session['username'] = userName
 	if userName == 'admin':
-		return render_template("view.html")
+		return redirect(url_for('ec2_view'))
 	return render_template("/main.html", title="Web & Image")
 
 
