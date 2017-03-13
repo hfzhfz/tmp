@@ -7,7 +7,7 @@ from app.config import db_config
 from wand.image import Image
 from wand.display import display
 import boto3
-import requests
+
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
