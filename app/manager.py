@@ -39,40 +39,41 @@ def ec2_view():
     instances = ec2.instances.all()
 
     cpu_stats_list = []
-    option = []
+    opt = []
     client = boto3.client('cloudwatch')
 
     for instance in instances:
-        print(instance.state)
-        id = instance.id
+        #print(instance.state)
+        if instance.state['Name'] == 'running':
+            id = instance.id
 
-        metric_name = 'CPUUtilization'
+            metric_name = 'CPUUtilization'
 
 
-        namespace = 'AWS/EC2'
-        statistic = 'Average'                   
+            namespace = 'AWS/EC2'
+            statistic = 'Average'                   
 
-        cpu = client.get_metric_statistics(
-            Period=1 * 60,
-            StartTime=datetime.utcnow() - timedelta(seconds=60 * 60),
-            EndTime=datetime.utcnow() - timedelta(seconds=0 * 60),
-            MetricName=metric_name,
-            Namespace=namespace,  # Unit='Percent',
-            Statistics=[statistic],
-            Dimensions=[{'Name': 'InstanceId', 'Value': id}]
-        )
+            cpu = client.get_metric_statistics(
+                Period=1 * 60,
+                StartTime=datetime.utcnow() - timedelta(seconds=60 * 60),
+                EndTime=datetime.utcnow() - timedelta(seconds=0 * 60),
+                MetricName=metric_name,
+                Namespace=namespace,  # Unit='Percent',
+                Statistics=[statistic],
+                Dimensions=[{'Name': 'InstanceId', 'Value': id}]
+            )
 
-        cpu_stats = []
+            cpu_stats = []
 
-        for point in cpu['Datapoints']:
-            hour = point['Timestamp'].hour
-            minute = point['Timestamp'].minute
-            time = hour + minute/60
-            cpu_stats.append([time,point['Average']])
+            for point in cpu['Datapoints']:
+                hour = point['Timestamp'].hour
+                minute = point['Timestamp'].minute
+                time = hour + minute/60
+                cpu_stats.append([time,point['Average']])
 
-        cpu_stats = sorted(cpu_stats, key=itemgetter(0))
+            cpu_stats = sorted(cpu_stats, key=itemgetter(0))
 
-        cpu_stats_list.append(cpu_stats)
+            cpu_stats_list.append(cpu_stats)
 
 
 
@@ -94,15 +95,16 @@ def ec2_view():
         cnx.commit()
 
     else:
-        option.append(row[1])
-        option.append(row[2])
-        option.append(row[3])
-        option.append(row[4])
+        opt.append(row[1])
+        opt.append(row[2])
+        opt.append(row[3])
+        opt.append(row[4])
 
+    print(opt)
     return render_template("view.html",title="Instance Info",
                                        cpu_stats_list=cpu_stats_list,
                                        instances=instances,
-                                       option=option)
+                                       opt=opt)
 
 
 @webapp.route('/manager/grow',methods=['POST'])
