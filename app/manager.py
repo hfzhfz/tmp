@@ -43,6 +43,7 @@ def ec2_view():
     client = boto3.client('cloudwatch')
 
     for instance in instances:
+        print(instance.state)
         id = instance.id
 
         metric_name = 'CPUUtilization'
@@ -186,8 +187,8 @@ def ec2_create():
             )
 
     instances = ec2.instances.all()
-    number = len(instances) - 2
-    value = 'ece1779worker' + str(number)
+    
+    value = 'ece1779worker' 
     
     tag = instance.create_tags(
         Tags=[
