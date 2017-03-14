@@ -109,7 +109,6 @@ def ec2_view():
 
 @webapp.route('/manager/grow',methods=['POST'])
 def ec2_grow_ratio():
-    print("Gratio")
 
     ratio = request.form.get('Gratio')
     
@@ -121,11 +120,10 @@ def ec2_grow_ratio():
     cnx.commit()
 
     #return redirect(url_for('ec2_view'))
-    return None
+    return 1
 
 @webapp.route('/manager/shrink',methods=['POST'])
 def ec2_shrink_ratio():
-    print("Sratio")
 
     ratio = request.form.get('Sratio')
 
@@ -137,11 +135,10 @@ def ec2_shrink_ratio():
     cnx.commit()
 
     #return redirect(url_for('ec2_view'))
-    return None
+    return 1
 
 @webapp.route('/manager/Gthreshold',methods=['POST'])
 def ec2_grow_threshold():
-    print("Gthreshold")
 
     threshold = request.form.get('grow')
 
@@ -153,11 +150,10 @@ def ec2_grow_threshold():
     cnx.commit()
 
     #return redirect(url_for('ec2_view'))
-    return None
+    return 1
 
 @webapp.route('/manager/Sthreshold',methods=['POST'])
 def ec2_shrink_threshold():
-    print("Sthreshold")
 
     threshold = request.form.get('shrink')
 
@@ -169,7 +165,7 @@ def ec2_shrink_threshold():
     cnx.commit()
 
     #return redirect(url_for('ec2_view'))
-    return None
+    return 1
 
 @webapp.route('/manager/create',methods=['POST'])
 # Start a new EC2 instance
