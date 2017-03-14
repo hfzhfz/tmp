@@ -129,7 +129,7 @@ def ec2_shrink_ratio():
 
     cnx = get_db()
     cursor = cnx.cursor()
-    query = ''' UPDATE workers SET shrink_ratio = %s
+    query = ''' UPDATE workers SET shrink_ratio = %s WHERE id = %s
     '''
     cursor.execute(query,(ratio, 1))
     cnx.commit()
@@ -141,10 +141,11 @@ def ec2_shrink_ratio():
 def ec2_grow_threshold():
 
     threshold = request.form.get('grow')
+    print(threshold)
 
     cnx = get_db()
     cursor = cnx.cursor()
-    query = ''' UPDATE workers SET grow_threshold = %s
+    query = ''' UPDATE workers SET grow_threshold = %s WHERE id = %s
     '''
     cursor.execute(query,(threshold, 1))
     cnx.commit()
@@ -159,7 +160,7 @@ def ec2_shrink_threshold():
 
     cnx = get_db()
     cursor = cnx.cursor()
-    query = ''' UPDATE workers SET shrink_threshold = %s
+    query = ''' UPDATE workers SET shrink_threshold = %s WHERE id = %s
     '''
     cursor.execute(query,(threshold, 1))
     cnx.commit()
