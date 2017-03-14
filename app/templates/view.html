@@ -58,7 +58,7 @@
         <h3>CPU Threshold for Growing</h3>
         <form action="{{url_for('ec2_grow_threshold')}}" method="post">
             <select name="grow">
-                <option value="30" {% if opt[2]==30 %} selected="selected"{% endif %}>30%</option>
+                <option value="0" {% if opt[2]==0 %} selected="selected"{% endif %}>30%</option>
                 <option value="40" {% if opt[2]==40 %} selected="selected"{% endif %}>40%</option>
                 <option value="50" {% if opt[2]==50 %} selected="selected"{% endif %}>50%</option>
                 <option value="60" {% if opt[2]==60 %} selected="selected"{% endif %}>60%</option>
