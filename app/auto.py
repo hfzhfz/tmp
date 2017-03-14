@@ -98,6 +98,8 @@ def auto():
 		print("grow_threshold=" + str(grow_threshold))
 		print("shrink_threshold=" + str(shrink_threshold))
 
+		cnx.commit()
+
 		metric_name = 'CPUUtilization'
 
 		namespace = 'AWS/EC2'
