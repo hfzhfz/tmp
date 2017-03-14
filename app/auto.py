@@ -3,9 +3,13 @@
 import time
 import boto3
 import mysql.connector
-from app.config import db_config
 import math
 
+db_config = {'user': 'root', 
+             'password': 'ece1779pass',
+             'host': '172.31.70.89',
+             'cloudWatch': 'cloudWatch',
+             'ami_id': 'ami-fdd77beb'}
 
 def connect_to_database():
 	return mysql.connector.connect(user=db_config['user'], 
@@ -137,7 +141,7 @@ def auto():
 		elif min(cpu_stats) < shrink_threshold and shrink_threshold < grow_threshold:
 			worker_left = math.ceil(count / shrink_ratio)
 			worker_destroy = count - worker_left
-			for i in range(times):
+			for i in range(worker_destroy):
 				print("I will destroy")
 
 		time.sleep(30)
