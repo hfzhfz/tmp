@@ -112,7 +112,7 @@ def ec2_grow_ratio():
     print("Gratio")
 
     ratio = request.form.get('Gratio')
-
+    print(ratio)
     cnx = get_db()
     cursor = cnx.cursor()
     query = ''' UPDATE workers SET grow_ratio = %s
