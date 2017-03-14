@@ -4,7 +4,7 @@ import time
 import boto3
 import mysql.connector
 import math
-from flask import g
+import PyMySQL
 
 db_config = {'user': 'root', 
              'password': 'ece1779pass',
@@ -12,24 +12,7 @@ db_config = {'user': 'root',
              'cloudWatch': 'cloudWatch',
              'ami_id': 'ami-fdd77beb'}
 
-def connect_to_database():
-	return mysql.connector.connect(user=db_config['user'], 
-	                               password=db_config['password'],
-	                               host=db_config['host'],
-	                               database=db_config['cloudWatch'])
 
-
-def get_db():
-	db = getattr(g, '_database', None)
-	if db is None:
-		db = g._database = connect_to_database()
-	return db
-
-
-def teardown_db(exception):
-	db = getattr(g, '_database', None)
-	if db is not None:
-		db.close()
 
 def ec2_create():
 
@@ -85,8 +68,14 @@ def ec2_destroy(id):
 
 
 def auto():
-	cnx = get_db()
+	#cnx = get_db()
+	#cursor = cnx.cursor()
+	cnx = PyMySQL.connect(db_config['host'],
+						  db_config['user'],
+						  db_config['password'],
+						  db_config['cloudWatch'])
 	cursor = cnx.cursor()
+
 	client = boto3.client('cloudwatch')
 
 
