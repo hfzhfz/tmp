@@ -15,6 +15,7 @@
            <th>Status</th>
         </thead> 
         {% for instance in instances %}
+            {% if instance.state['Name']=='running' %}
             <tr>
                 <td>{{ instance.tags[0]['Value'] }}</td>
                 <td>{{ instance.image_id }}</td>
@@ -28,6 +29,7 @@
                     </td>
                 {% endif %}
             </tr>
+            {% endif %}
         {% endfor %}
         </table>
 
