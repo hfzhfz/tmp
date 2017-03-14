@@ -20,11 +20,13 @@
                 <td>{{ instance.image_id }}</td>
                 <td>{{ instance.public_ip_address }}</td>
                 <td>{{ instance.state['Name'] }}</td>
-                <td>
-                    <form action="{{url_for('ec2_destroy',id=instance.id)}}" method='post' onsubmit='return confirm("Are you sure?")'>
-                        <input type='submit' value='Destroy' />
-                    </form>
-                </td>
+                {% if not (instance.id == i-026f5969050b98d16 or instance.id == i-036c5c38ccf4ad90b) %}
+                    <td>
+                        <form action="{{url_for('ec2_destroy',id=instance.id)}}" method='post' onsubmit='return confirm("Are you sure?")'>
+                            <input type='submit' value='Destroy' />
+                        </form>
+                    </td>
+                {% endif %}
             </tr>
         {% endfor %}
         </table>
@@ -66,9 +68,9 @@
         <h3>CPU Threshold for Shrinking</h3>
         <form action="{{url_for('ec2_shrink_threshold')}}" method="post">
             <select name="shrink">
-                <option value="20" selected={{opt[4]==20}}>20%</option>
-                <option value="30" selected={{opt[4]==30}}>30%</option>
-                <option value="40" selected={{opt[4]==40}}>40%</option>
+                <option value="20" {% if opt[4]==20 %} selected="selected"{% endif %}>20%</option>
+                <option value="30" {% if opt[4]==30 %} selected="selected"{% endif %}>30%</option>
+                <option value="40" {% if opt[4]==40 %} selected="selected"{% endif %}>40%</option>
             </select>
             <input type="submit" value="Set Shrink Threshold">
         </form>
@@ -76,9 +78,9 @@
         <h3>Worker Pool Grow Ratio</h3>
         <form action="{{url_for('ec2_grow_ratio')}}" method="post">
             <select name="Gratio">
-                <option value="2" selected={{opt[1]==2}}>2</option>
-                <option value="3" selected={{opt[1]==3}}>3</option>
-                <option value="4" selected={{opt[1]==4}}>4</option>
+                <option value="2" {% if opt[1]==2 %} selected="selected"{% endif %}>2</option>
+                <option value="3" {% if opt[1]==3 %} selected="selected"{% endif %}>3</option>
+                <option value="4" {% if opt[1]==4 %} selected="selected"{% endif %}>4</option>
             </select>
             <input type="submit" name="grow" value="Set Grow Ratio">
         </form>
@@ -86,9 +88,9 @@
         <h3>Worker Pool Shrink Ratio</h3>
         <form action="{{url_for('ec2_shrink_ratio')}}" method="post">
             <select name="Sratio">
-                <option value="2" selected={{opt[2]==2}}>2</option>
-                <option value="3" selected={{opt[2]==3}}>3</option>
-                <option value="4" selected={{opt[2]==4}}>4</option>
+                <option value="2" {% if opt[2]==2 %} selected="selected"{% endif %}>2</option>
+                <option value="3" {% if opt[2]==3 %} selected="selected"{% endif %}>3</option>
+                <option value="4" {% if opt[2]==4 %} selected="selected"{% endif %}>4</option>
             </select>
             <input type="submit" name="shrink" value="Set Shrink Ratio">
         </form>

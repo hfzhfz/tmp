@@ -100,7 +100,7 @@ def ec2_view():
         opt.append(row[3])
         opt.append(row[4])
 
-    print(opt)
+    #print(opt)
     return render_template("view.html",title="Instance Info",
                                        cpu_stats_list=cpu_stats_list,
                                        instances=instances,
