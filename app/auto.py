@@ -4,6 +4,7 @@ import time
 import boto3
 import mysql.connector
 import math
+from flask import g
 
 db_config = {'user': 'root', 
              'password': 'ece1779pass',
