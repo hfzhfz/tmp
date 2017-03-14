@@ -81,18 +81,22 @@ def auto():
 	client = boto3.client('cloudwatch')
 
 
-	query = "SELECT * FROM workers WHERE id = %s"
-
-	cursor.execute(query,(1,))
-
-	row = cursor.fetchone()
-
-	grow_ratio = row[1]
-	shrink_ratio = row[2]
-	grow_threshold = row[3]
-	shrink_threshold = row[4]
-
 	while(1):
+		query = "SELECT * FROM workers WHERE id = %s"
+
+		cursor.execute(query,(1,))
+
+		row = cursor.fetchone()
+
+		grow_ratio = row[1]
+		shrink_ratio = row[2]
+		grow_threshold = row[3]
+		shrink_threshold = row[4]
+
+		print("grow_ratio=" + str(grow_ratio))
+		print("shrink_ratio=" + str(shrink_ratio))
+		print("grow_threshold=" + str(grow_threshold))
+		print("shrink_threshold=" + str(shrink_threshold))
 
 		metric_name = 'CPUUtilization'
 
@@ -122,8 +126,9 @@ def auto():
 		cpu_stats = []
 
 		for point in cpu['Datapoints']:
-			print(point['Maximum'])
+			#print(point['Maximum'])
 			cpu_stats.append(point['Maximum'])
+		print(max(cpu_stats))
 
 		if max(cpu_stats) > grow_threshold:
 			times = (grow_ratio-1) * count
