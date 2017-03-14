@@ -86,19 +86,10 @@ def ec2_view():
 
     row = cursor.fetchone()
 
-    if row is None:
-        query = ''' INSERT INTO workers (id, grow_ratio, shrink_ratio, grow_threshold, shrink_threshold)
-                       VALUES (%s, %s, %s, %s, %s)
-        '''
-
-        cursor.execute(query,(1,2,2,30,20))
-        cnx.commit()
-
-    else:
-        opt.append(row[1])
-        opt.append(row[2])
-        opt.append(row[3])
-        opt.append(row[4])
+    opt.append(row[1])
+    opt.append(row[2])
+    opt.append(row[3])
+    opt.append(row[4])
 
     #print(opt)
     return render_template("view.html",title="Instance Info",
