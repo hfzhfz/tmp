@@ -54,13 +54,13 @@
         <h3>CPU Threshold for Growing</h3>
         <form action="{{url_for('ec2_grow_threshold')}}" method="post">
             <select name="grow">
-                <option value="30" selected={{opt[3]==30}}>30%</option>
-                <option value="40" selected={{opt[3]==40}}>40%</option>
-                <option value="50" selected={{opt[3]==50}}>50%</option>
-                <option value="60" selected={{opt[3]==60}}>60%</option>
-                <option value="70" selected={{opt[3]==70}}>70%</option>
+                <option value="30" {% if opt[3]==30 %} selected="selected"{% endif %}>30%</option>
+                <option value="40" {% if opt[3]==40 %} selected="selected"{% endif %}>40%</option>
+                <option value="50" {% if opt[3]==50 %} selected="selected"{% endif %}>50%</option>
+                <option value="60" {% if opt[3]==60 %} selected="selected"{% endif %}>60%</option>
+                <option value="70" {% if opt[3]==70 %} selected="selected"{% endif %}>70%</option>
             </select>
-            <input type="submit">
+            <input type="submit" value="Set Grow Threshold">
         </form>
 
         <h3>CPU Threshold for Shrinking</h3>
@@ -70,7 +70,7 @@
                 <option value="30" selected={{opt[4]==30}}>30%</option>
                 <option value="40" selected={{opt[4]==40}}>40%</option>
             </select>
-            <input type="submit">
+            <input type="submit" value="Set Shrink Threshold">
         </form>
 
         <h3>Worker Pool Grow Ratio</h3>
