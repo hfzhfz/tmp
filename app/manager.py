@@ -114,9 +114,13 @@ def ec2_grow_ratio():
     
     cnx = get_db()
     cursor = cnx.cursor()
-    query = "UPDATE workers SET grow_ratio = %s WHERE id = %s"
+    #query = "UPDATE workers SET grow_ratio = %s WHERE id = %s"
     
-    cursor.execute(query,(ratio, 1))
+    #cursor.execute(query,(ratio, 1))
+    cursor.execute(""" 
+        UPDATE workers SET grow_ratio=%s WHERE id=%s
+        """, (int(ratio), 1))
+
     cnx.commit()
 
     return redirect(url_for('ec2_view'))
@@ -131,7 +135,7 @@ def ec2_shrink_ratio():
     cursor = cnx.cursor()
     query = "UPDATE workers SET shrink_ratio = %s WHERE id = %s"
     
-    cursor.execute(query,(ratio, 1))
+    cursor.execute(query,(int(ratio), 1))
     cnx.commit()
 
     return redirect(url_for('ec2_view'))
@@ -147,7 +151,7 @@ def ec2_grow_threshold():
     cursor = cnx.cursor()
     query = "UPDATE workers SET grow_threshold = %s WHERE id = %s"
     
-    cursor.execute(query,(threshold, 1))
+    cursor.execute(query,(int(threshold), 1))
     cnx.commit()
 
     return redirect(url_for('ec2_view'))
@@ -162,7 +166,7 @@ def ec2_shrink_threshold():
     cursor = cnx.cursor()
     query = "UPDATE workers SET shrink_threshold = %s WHERE id = %s"
     
-    cursor.execute(query,(threshold, 1))
+    cursor.execute(query,(int(threshold), 1))
     cnx.commit()
 
     return redirect(url_for('ec2_view'))
