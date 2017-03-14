@@ -195,7 +195,7 @@ def ec2_create():
         LoadBalancerName='1779ELB',
         Instances=[
             {
-                'InstanceId': instance.id
+                'InstanceId': instance[0].id
             },
         ]
     )

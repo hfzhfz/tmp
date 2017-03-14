@@ -45,7 +45,7 @@ def ec2_create():
 	    LoadBalancerName='1779ELB',
 	    Instances=[
 	        {
-	            'InstanceId': instance.id
+	            'InstanceId': instance[0].id
 	        },
 	    ]
 	)
@@ -147,8 +147,10 @@ def auto():
 				if(worker_destroy<1):
 					break
 				if not (instance.id == 'i-026f5969050b98d16' or instance.id == 'i-036c5c38ccf4ad90b' or instance.id == 'i-0dd8069a3598ec8a5'):
-					print("I will destroy")
-					worker_destroy-=1
+					if instance.state['Name'] == 'running':
+						print("I will destroy")
+						worker_destroy-=1
+						#ec2_destroy(instance.id)
 				
 
 		time.sleep(60)
