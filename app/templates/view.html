@@ -20,7 +20,7 @@
                 <td>{{ instance.image_id }}</td>
                 <td>{{ instance.public_ip_address }}</td>
                 <td>{{ instance.state['Name'] }}</td>
-                {% if not (instance.id == 'i-026f5969050b98d16' or instance.id == 'i-036c5c38ccf4ad90b') %}
+                {% if not (instance.id == 'i-026f5969050b98d16' or instance.id == 'i-036c5c38ccf4ad90b' or instance.id == 'i-0dd8069a3598ec8a5') %}
                     <td>
                         <form action="{{url_for('ec2_destroy',id=instance.id)}}" method='post' onsubmit='return confirm("Are you sure?")'>
                             <input type='submit' value='Destroy' />

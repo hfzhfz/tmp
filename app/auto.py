@@ -105,7 +105,7 @@ def auto():
 		    MetricName=metric_name,
 		    Namespace=namespace,  
 		    Statistics=[statistic],
-		    Dimensions=[{'Name': 'InstanceId', 'Value': id}]
+		    Dimensions=[{'Name': 'InstanceId', 'Value': 'i-0dd8069a3598ec8a5'}]
 		)
 
 		instances = ec2.instances.all()
@@ -132,8 +132,14 @@ def auto():
 		elif min(cpu_stats) < shrink_threshold and shrink_threshold < grow_threshold:
 			worker_left = math.ceil(count / shrink_ratio)
 			worker_destroy = count - worker_left
-			for i in range(worker_destroy):
-				print("I will destroy")
+			instances = ec2.instances.all()
+			for instance in instances:
+				if(worker_destroy<1):
+					break
+				if not (instance.id == 'i-026f5969050b98d16' or instance.id == 'i-036c5c38ccf4ad90b' or instance.id == 'i-0dd8069a3598ec8a5'):
+					print("I will destroy")
+					worker_destroy-=1
+				
 
 		time.sleep(30)
 
