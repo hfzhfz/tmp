@@ -4,7 +4,7 @@ import time
 import boto3
 import mysql.connector
 import math
-import PyMySQL
+import mysql.connector
 
 db_config = {'user': 'root', 
              'password': 'ece1779pass',
@@ -70,10 +70,10 @@ def ec2_destroy(id):
 def auto():
 	#cnx = get_db()
 	#cursor = cnx.cursor()
-	cnx = PyMySQL.connect(db_config['host'],
-						  db_config['user'],
-						  db_config['password'],
-						  db_config['cloudWatch'])
+	cnx = mysql.connector.connect(host=db_config['host'],
+								  user=db_config['user'],
+								  password=db_config['password'],
+								  database=db_config['cloudWatch'])
 	cursor = cnx.cursor()
 
 	client = boto3.client('cloudwatch')
