@@ -5,6 +5,7 @@ import boto3
 import mysql.connector
 import math
 import mysql.connector
+from datetime import datetime, timedelta
 
 db_config = {'user': 'root', 
              'password': 'ece1779pass',
