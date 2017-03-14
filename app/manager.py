@@ -119,8 +119,8 @@ def ec2_grow_ratio():
     cursor.execute(query,(ratio, 1))
     cnx.commit()
 
-    #return redirect(url_for('ec2_view'))
-    return 1
+    return redirect(url_for('ec2_view'))
+    
 
 @webapp.route('/manager/shrink',methods=['POST'])
 def ec2_shrink_ratio():
@@ -134,8 +134,8 @@ def ec2_shrink_ratio():
     cursor.execute(query,(ratio, 1))
     cnx.commit()
 
-    #return redirect(url_for('ec2_view'))
-    return 1
+    return redirect(url_for('ec2_view'))
+    
 
 @webapp.route('/manager/Gthreshold',methods=['POST'])
 def ec2_grow_threshold():
@@ -149,8 +149,8 @@ def ec2_grow_threshold():
     cursor.execute(query,(threshold, 1))
     cnx.commit()
 
-    #return redirect(url_for('ec2_view'))
-    return 1
+    return redirect(url_for('ec2_view'))
+    
 
 @webapp.route('/manager/Sthreshold',methods=['POST'])
 def ec2_shrink_threshold():
@@ -164,8 +164,8 @@ def ec2_shrink_threshold():
     cursor.execute(query,(threshold, 1))
     cnx.commit()
 
-    #return redirect(url_for('ec2_view'))
-    return 1
+    return redirect(url_for('ec2_view'))
+    
 
 @webapp.route('/manager/create',methods=['POST'])
 # Start a new EC2 instance
