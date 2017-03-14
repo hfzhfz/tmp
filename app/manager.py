@@ -182,7 +182,7 @@ def ec2_create():
     
     value = 'ece1779worker' 
     
-    tag = instance.create_tags(
+    tag = instance[0].create_tags(
         Tags=[
             {
                 'Key': 'Name',
