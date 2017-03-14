@@ -43,7 +43,7 @@ def ec2_view():
     client = boto3.client('cloudwatch')
 
     for instance in instances:
-        #print(instance.state)
+        print(instance.tags['Value'])
         if instance.state['Name'] == 'running':
             id = instance.id
 
