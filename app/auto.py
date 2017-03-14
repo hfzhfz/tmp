@@ -118,7 +118,7 @@ def auto():
 				count += 1  #total number of running instances
 		
 		count -= 2 # number of running workers
-
+		print("count=" +str(count))
 		cpu_stats = []
 
 		for point in cpu['Datapoints']:
