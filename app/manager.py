@@ -187,8 +187,6 @@ def ec2_create():
             InstanceType='t2.small',
             Monitoring={'Enabled': True}
             )
-
-    instances = ec2.instances.all()
     
     value = 'ece1779worker' 
     
@@ -218,6 +216,16 @@ def ec2_create():
 def ec2_destroy(id):
     
     ec2 = boto3.resource('ec2')
+    client = boto3.client('elb')
+
+    response = client.deregister_instances_from_load_balancer(
+        LoadBalancerName='1779ELB',
+        Instances=[
+            {
+                'InstanceId': id
+            },
+        ]
+    )
 
     ec2.instances.filter(InstanceIds=[id]).terminate()
 
