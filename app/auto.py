@@ -71,6 +71,7 @@ def ec2_destroy(id):
 def auto():
 	#cnx = get_db()
 	#cursor = cnx.cursor()
+	ec2 = boto3.resource('ec2')
 	cnx = mysql.connector.connect(host=db_config['host'],
 								  user=db_config['user'],
 								  password=db_config['password'],
