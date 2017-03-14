@@ -130,17 +130,19 @@ def auto():
 		for point in cpu['Datapoints']:
 			#print(point['Maximum'])
 			cpu_stats.append(point['Maximum'])
-		print(max(cpu_stats))
+		print(min(cpu_stats))
 
 		if max(cpu_stats) > grow_threshold:
 			times = (grow_ratio-1) * count
 			for i in range(times):
 				print("I will create")
+				#ec2_create()
 			
-		elif min(cpu_stats) < shrink_threshold and shrink_threshold < grow_threshold:
+		elif (min(cpu_stats) < shrink_threshold and shrink_threshold < grow_threshold):
 			worker_left = math.ceil(count / shrink_ratio)
 			worker_destroy = count - worker_left
 			instances = ec2.instances.all()
+			#print(worker_destroy)
 			for instance in instances:
 				if(worker_destroy<1):
 					break
@@ -149,7 +151,7 @@ def auto():
 					worker_destroy-=1
 				
 
-		time.sleep(30)
+		time.sleep(60)
 
 
 
