@@ -253,6 +253,7 @@ def file_upload_test():
 		return redirect(url_for('file_upload_test'))
 
 	session['username'] = userName
+	username = userName
 
 	s3 = boto3.resource('s3')
 
