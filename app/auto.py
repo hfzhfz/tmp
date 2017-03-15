@@ -135,8 +135,8 @@ def auto():
 		if max(cpu_stats) > grow_threshold:
 			times = (grow_ratio-1) * count
 			for i in range(times):
-				print("I will create")
-				#ec2_create()
+				#print("I will create")
+				ec2_create()
 			
 		elif (min(cpu_stats) < shrink_threshold and shrink_threshold < grow_threshold):
 			worker_left = math.ceil(count / shrink_ratio)
@@ -148,9 +148,9 @@ def auto():
 					break
 				if not (instance.id == 'i-026f5969050b98d16' or instance.id == 'i-036c5c38ccf4ad90b' or instance.id == 'i-0dd8069a3598ec8a5'):
 					if instance.state['Name'] == 'running':
-						print("I will destroy")
+						#print("I will destroy")
 						worker_destroy-=1
-						#ec2_destroy(instance.id)
+						ec2_destroy(instance.id)
 				
 
 		time.sleep(60)
