@@ -252,5 +252,5 @@ def Data_destroy():
 
     cnx.close()
 
-    return redirect(url_for('ec2_view'))
+    return render_template("login.html")
 
