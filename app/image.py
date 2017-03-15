@@ -224,8 +224,8 @@ def transformed():
 @webapp.route('/test/FileUpload',methods=['POST'])
 def file_upload_test():
 	
-	userName = request.form.get('userID',"")
-	password = request.form.get('password',"")
+	userName = request.form["userID"]
+	password = request.form["password"]
 
 	if userName == "" or password == "":
 		error_msg="Error: All fields are required!"
