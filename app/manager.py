@@ -5,6 +5,7 @@ import mysql.connector
 from app.config import db_config
 from datetime import datetime, timedelta
 from operator import itemgetter
+import botocore
 
 def connect_to_database():
     return mysql.connector.connect(user=db_config['user'], 
@@ -222,3 +223,30 @@ def ec2_destroy(id):
     ec2.instances.filter(InstanceIds=[id]).terminate()
 
     return redirect(url_for('ec2_view'))
+
+
+@webapp.route('/manager/deleteData',methods=['POST'])
+# Terminate a EC2 instance
+def Data_destroy():
+
+    s3 = boto3.client('s3')
+
+    bucket = s3.Bucket('lizw-a1')
+
+    for key in bucket.objects.all():
+        key.delete()
+
+    cnx = get_db()
+    cursor = cnx.cursor()
+    query = "DELETE FROM users"
+    
+    cursor.execute(query)
+
+    query = "DELETE FROM images"
+
+    cursor.execute(query)
+
+    cnx.commit()
+
+    return redirect(url_for('ec2_view'))
+
