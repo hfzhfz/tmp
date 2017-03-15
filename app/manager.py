@@ -5,7 +5,7 @@ import mysql.connector
 from app.config import db_config
 from datetime import datetime, timedelta
 from operator import itemgetter
-import botocore
+
 
 def connect_to_database():
     return mysql.connector.connect(user=db_config['user'], 
@@ -229,7 +229,7 @@ def ec2_destroy(id):
 # Terminate a EC2 instance
 def Data_destroy():
 
-    s3 = boto3.client('s3')
+    s3 = boto3.resource('s3')
 
     bucket = s3.Bucket('lizw-a1')
 
