@@ -340,6 +340,6 @@ def file_upload_test():
 
 
 @webapp.route('/test',methods=['GET'])
-def welcome_page():
+def test_page():
 	return render_template("test.html")
 
