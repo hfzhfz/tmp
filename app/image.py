@@ -340,7 +340,7 @@ def file_upload_test():
 	return redirect(url_for('file_upload_test'))
 
 
-@webapp.route('/test',methods=['GET'])
+@webapp.route('/test_page',methods=['GET'])
 def test_page():
 	return render_template("test.html")
 
