@@ -153,7 +153,7 @@ def auto():
 						ec2_destroy(instance.id)
 				
 
-		time.sleep(60)
+		time.sleep(30)
 
 
 
