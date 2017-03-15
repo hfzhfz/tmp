@@ -10,7 +10,7 @@ db_config = {'user': 'root',
              'password': 'ece1779pass',
              'host': '172.31.70.89',
              'cloudWatch': 'cloudWatch',
-             'ami_id': 'ami-fdd77beb'}
+             'ami_id': 'ami-9700a981'}
 
 
 
@@ -129,12 +129,12 @@ def auto():
 		for point in cpu['Datapoints']:
 			#print(point['Maximum'])
 			cpu_stats.append(point['Maximum'])
-		print(min(cpu_stats))
+		print(max(cpu_stats))
 
 		if max(cpu_stats) > grow_threshold:
 			times = (grow_ratio-1) * count
 			for i in range(times):
-				#print("I will create")
+				print("I will create")
 				ec2_create()
 			
 		elif (min(cpu_stats) < shrink_threshold and shrink_threshold < grow_threshold):
@@ -147,7 +147,7 @@ def auto():
 					break
 				if not (instance.id == 'i-026f5969050b98d16' or instance.id == 'i-036c5c38ccf4ad90b' or instance.id == 'i-0dd8069a3598ec8a5'):
 					if instance.state['Name'] == 'running':
-						#print("I will destroy")
+						print("I will destroy")
 						worker_destroy-=1
 						ec2_destroy(instance.id)
 				

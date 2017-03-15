@@ -4,4 +4,4 @@ db_config = {'user': 'root',
              'database': 'webimage',
              'cloudWatch': 'cloudWatch',
              'path': 'app/static',
-             'ami_id': 'ami-fdd77beb'}
+             'ami_id': 'ami-9700a981'}
