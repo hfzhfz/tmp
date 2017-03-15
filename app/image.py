@@ -229,7 +229,7 @@ def file_upload_test():
 
 	if userName == "" or password == "":
 		error_msg="Error: All fields are required!"
-		return redirect(url_for('file_upload_test'))
+		return redirect(url_for('test_page'))
 
 	cnx = get_db()
 	cursor = cnx.cursor()
@@ -242,7 +242,7 @@ def file_upload_test():
 
 	if row is None:
 		error_msg="User not exist!"
-		return redirect(url_for('file_upload_test'))
+		return redirect(url_for('test_page'))
 
 	userId = row[0]
 	hashed = row[3]
@@ -250,7 +250,7 @@ def file_upload_test():
 	if not (hashed.encode('utf8') == bcrypt.hashpw(password.encode('utf8'),hashed.encode('utf8'))):
 		
 		error_msg="Incorrect Password!"
-		return redirect(url_for('file_upload_test'))
+		return redirect(url_for('test_page'))
 
 	session['username'] = userName
 	username = userName
@@ -259,13 +259,13 @@ def file_upload_test():
 
 	if 'uploadedfile' not in request.files:
 		msg = "no file"
-		return redirect(url_for('file_upload_test'))
+		return redirect(url_for('test_page'))
 
 	file = request.files['uploadedfile']
     
 	if file.filename == '':
 		msg = "empty"
-		return redirect(url_for('file_upload_test'))
+		return redirect(url_for('test_page'))
 
 	if file and allowed_file(file.filename):
 
@@ -277,7 +277,7 @@ def file_upload_test():
 		row = cursor.fetchone()
 		if not row is None:
 			msg = "file exists! try another one"
-			return redirect(url_for('file_upload_test'))
+			return redirect(url_for('test_page'))
 
 		
 		file.save(os.path.join(path, filename))
@@ -338,7 +338,7 @@ def file_upload_test():
 		msg = "success"
 
 	
-	return redirect(url_for('file_upload_test'))
+	return redirect(url_for('test_page'))
 
 
 @webapp.route('/test_page',methods=['GET'])
