@@ -241,12 +241,11 @@ def Data_destroy():
                                   password=db_config['password'],
                                   database=db_config['database'])
     cursor = cnx.cursor()
-    query = "DELETE FROM users"
     
+    query = "DELETE FROM images"    
     cursor.execute(query)
-
-    query = "DELETE FROM images"
-
+    
+    query = "DELETE FROM users"
     cursor.execute(query)
 
     cnx.commit()
