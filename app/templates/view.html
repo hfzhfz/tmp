@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
 
-        <h1>{{title}}</h1>
 
         <form action="{{url_for('ec2_create')}}" method="post">
             <input type="submit" value="New">
@@ -96,7 +95,7 @@
             </select>
             <input type="submit" name="shrink" value="Set Shrink Ratio">
         </form>
-
+        <br><br><br>
 
         <form action="{{url_for('Data_destroy')}}" method='post' onsubmit='return confirm("Are you sure?")'>
             <input type='submit' value='Delete All Data' />
