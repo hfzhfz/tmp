@@ -236,7 +236,10 @@ def Data_destroy():
     for key in bucket.objects.all():
         key.delete()
 
-    cnx = get_db()
+    cnx = mysql.connector.connect(host=db_config['host'],
+                                  user=db_config['user'],
+                                  password=db_config['password'],
+                                  database=db_config['database'])
     cursor = cnx.cursor()
     query = "DELETE FROM users"
     
@@ -247,6 +250,8 @@ def Data_destroy():
     cursor.execute(query)
 
     cnx.commit()
+
+    cnx.close()
 
     return redirect(url_for('ec2_view'))
 
